@@ -1,8 +1,8 @@
 import { parse } from 'node-html-parser';
 import fetch from 'node-fetch';
 
-const CAT_GRAM = ['étymologie', 'adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe']
-const CAT_GRAM_OL = ['adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe']
+const CAT_GRAM = ['étymologie', 'adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe', 'onomatopée']
+const CAT_GRAM_OL = ['adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe', 'onomatopée']
 
 async function parseWiki(mot) {
 
