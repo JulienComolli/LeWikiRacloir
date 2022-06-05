@@ -35,6 +35,11 @@ async function parseWiki(mot) {
     const imgs = parseOutput.querySelectorAll('a.image > img');
     const etym = root.querySelectorAll('.mw-parser-output h2 + h3 + dl');
 
+    const toolTips = root.querySelectorAll('sup');
+    toolTips.forEach(tt => {
+        tt.parentNode.removeChild(tt);
+    });
+
     if (imgs.length > 0) response['imgs'] = [];
 
     imgs.forEach(img => {
