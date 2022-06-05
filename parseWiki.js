@@ -33,6 +33,7 @@ async function parseWiki(mot) {
     const langTitle = root.querySelectorAll('.mw-parser-output > h2 .mw-headline .sectionlangue') // les différentes langues, français + patois
     const ols = root.querySelectorAll('.mw-parser-output > ol');
     const imgs = parseOutput.querySelectorAll('a.image > img');
+    const etym = root.querySelectorAll('.mw-parser-output h2 + h3 + dl');
 
     if (imgs.length > 0) response['imgs'] = [];
 
@@ -49,7 +50,7 @@ async function parseWiki(mot) {
     nCatGram = 0;
     nCatGramOl = 0;
     secTitle.forEach(e => {
-        const secTitle = clearString(e.querySelector('.mw-headline span').text);
+        const secTitle = e.querySelector('.mw-headline span').text.replace(/[0-9]/g, '').toLowerCase();
         if (CAT_GRAM.includes(secTitle)) {
             nCatGram++;
             catGramList.push(secTitle);
@@ -84,21 +85,24 @@ async function parseWiki(mot) {
                 ulExs = def.querySelector('ul'); // Liste des examples d'utilisation
                 def.removeChild(ulExs);
 
-                resDef['def'] = def.innerText.replace('\n', '');
+                resDef['def'] = def.text.replace('\n', ' ');
 
                 if (ulExs) {
                     resDef['exs'] = []
                     let exs = ulExs.querySelectorAll('li');
                     exs.forEach(ex => {
-                        resDef['exs'].push(ex.innerText);
+                        resDef['exs'].push(ex.text.replace('\n', ' '));
                     });
                 }
 
-                response[langs[langIdx]][cat].push(resDef)
+                response[langs[langIdx]][cat].push(resDef);
             });
 
-
             olIdx++;
+        } else if(CAT_GRAM.includes(cat)) {
+            if(cat == 'étymologie') {
+                response[langs[langIdx]][cat].push(etym[langIdx].text.replace('\n', ' '));
+            }
         }
     });
 
@@ -108,12 +112,3 @@ async function parseWiki(mot) {
 
 export default parseWiki;
 
-
-
-function clearString(str) {
-    try {
-        return str.replace(/[0-9]/g, '').toLowerCase();
-    } catch {
-        return null;
-    }
-}
