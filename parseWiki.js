@@ -1,13 +1,13 @@
 import { parse } from 'node-html-parser';
 import fetch from 'node-fetch';
 
-const CAT_GRAM = ['étymologie', 'adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun']
-const CAT_GRAM_OL = ['adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun']
+const CAT_GRAM = ['étymologie', 'adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe']
+const CAT_GRAM_OL = ['adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe']
 
 async function parseWiki(mot) {
 
     // Récupération du contenu de la page
-    const res = await fetch('https://fr.wiktionary.org/wiki/' + mot);
+    const res = await fetch('https://fr.wiktionary.org/wiki/' + mot.replace('%20', '-')); // On renplace les espaces par des tirets
     const body = await res.text();
 
     // Check que la page existe sinon erreur
@@ -19,7 +19,7 @@ async function parseWiki(mot) {
     }
 
     // Début du parsing
-    let response = { mot }
+    let response = { mot: decodeURI(mot) }
 
     let nCatGram;
     let nCatGramOl;

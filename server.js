@@ -13,7 +13,7 @@ let apiUses = parseInt(fs.readFileSync('./apiUses.txt', 'utf-8'), 10);
 const server = http.createServer(async (req, res) => {
     if (req.method === 'GET') {
         if (req.url.match(/\/api\/mot\/\w+/)) {
-            const mot = req.url.split('/')[3].replace('%20', '-') // On renplace les espaces par un tiret
+            const mot = req.url.split('/')[3] // On renplace les espaces par un tiret
             res.writeHead(200, { 'Content-Type': 'application/json' })
             res.end(JSON.stringify(await parseWiki(mot)));
             apiUses++;
