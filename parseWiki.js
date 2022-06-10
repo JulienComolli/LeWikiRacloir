@@ -1,8 +1,8 @@
 import { parse } from 'node-html-parser';
 import fetch from 'node-fetch';
 
-const CAT_GRAM = ['étymologie', 'adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe', 'onomatopée']
-const CAT_GRAM_OL = ['adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe', 'onomatopée']
+const CAT_GRAM = ['étymologie', 'adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe', 'onomatopée', 'symbole', 'pronom possessif']
+const CAT_GRAM_OL = ['adjectif', 'verbe', 'forme de verbe', 'nom commun', 'forme de nom commun', 'adverbe', 'onomatopée', 'symbole', 'pronom possessif']
 
 async function parseWiki(mot) {
 
@@ -47,6 +47,7 @@ async function parseWiki(mot) {
     });
 
     response['langs'] = langs
+
     langTitle.forEach(e => {
         langs.push(e.text)
         response[e.text] = {}
@@ -99,14 +100,16 @@ async function parseWiki(mot) {
                         resDef['exs'].push(ex.text.replace('\n', ' '));
                     });
                 }
-
+                
                 response[langs[langIdx]][cat].push(resDef);
             });
 
             olIdx++;
         } else if(CAT_GRAM.includes(cat)) {
             if(cat == 'étymologie') {
-                response[langs[langIdx]][cat].push(etym[langIdx].text.replace('\n', ' '));
+                if(etym[langIdx]) {
+                    response[langs[langIdx]][cat].push(etym[langIdx].text.replace('\n', ' '));  
+                }
             }
         }
     });
