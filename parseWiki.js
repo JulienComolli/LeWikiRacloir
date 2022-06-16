@@ -106,7 +106,6 @@ async function parseWiki(mot) {
 
             olIdx++;
         } else if(CAT_GRAM.includes(cat)) {
-            console.log(cat);
             if(cat == 'étymologie' && etym[langIdx]) {
                 response[langs[langIdx]][cat].push(etym[langIdx].text.replace('\n', ' '));
             }
