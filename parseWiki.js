@@ -100,16 +100,15 @@ async function parseWiki(mot) {
                         resDef['exs'].push(ex.text.replace('\n', ' '));
                     });
                 }
-                
+
                 response[langs[langIdx]][cat].push(resDef);
             });
 
             olIdx++;
         } else if(CAT_GRAM.includes(cat)) {
-            if(cat == 'étymologie') {
-                if(etym[langIdx]) {
-                    response[langs[langIdx]][cat].push(etym[langIdx].text.replace('\n', ' '));  
-                }
+            console.log(cat);
+            if(cat == 'étymologie' && etym[langIdx]) {
+                response[langs[langIdx]][cat].push(etym[langIdx].text.replace('\n', ' '));
             }
         }
     });
